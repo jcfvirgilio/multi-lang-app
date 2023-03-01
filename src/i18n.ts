@@ -1,7 +1,11 @@
 import i18n from 'i18next';
+import I18NextHttpBackend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
+
+const getCurrentHost = import.meta.env.MODE === 'development' ? 'http://localhost:5173' : 'LINK TO PROD'
 i18n
+  .use(I18NextHttpBackend)
   .use(initReactI18next)
   .init({
     lng:'en',
@@ -9,34 +13,8 @@ i18n
     interpolation:{
       escapeValue:false
     },
-    resources:{
-      en:{
-        translation:{
-          title:'Multi-language App',
-          label:'Select Another Language',
-          about:'About',
-          home:'Home',
-          user: 'My name is: {{name}}'
-        }
-      },
-      es:{
-        translation:{
-          title:'Aplicación en varios idiomas',
-          label:'¡Selecciona otro lenguaje!',
-          about:'Sobre mí',
-          home:'Inicio',
-          user: 'Mi nombre es: {{name}}'
-        }
-      },
-      it:{
-        translation:{
-          title:'Applicazione multilingue',
-          label:"Selezionare un'altra lingua",
-          about:'Su di me',
-          home:'Casa',
-          user: 'Mi chiamo: {{name}}'
-        }
-      }
+    backend:{
+      loadPath:`${getCurrentHost}/i18n/{{lng}}.json`
     }
   })
 
